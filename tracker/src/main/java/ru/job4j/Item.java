@@ -1,5 +1,7 @@
 package ru.job4j;
 
+import javax.persistence.*;
+
 import java.util.Objects;
 
 /**
@@ -7,13 +9,20 @@ import java.util.Objects;
  * @author  Denis Krylov
  * @version $Id$
  */
+@Entity
+@Table(name = "items")
 public class Item {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
+    @Column(name = "name")
     private String name;
+    @Column(name = "description")
     private String desc;
-    private long created;
-    private String comments;
 
+    public Item() {
+
+    }
     /**
      * Конструктор нового объекта
      * @param name имя заявки
@@ -21,10 +30,10 @@ public class Item {
      //* @param created
      */
 
+
     public Item(String name, String desc) {
         this.name = name;
         this.desc = desc;
-        //this.created = created;
     }
 
     public Item(String id, String name, String desc) {
@@ -57,11 +66,14 @@ public class Item {
      * @param name новый name
      */
     public void setName(String name) {
+
         this.name = name;
     }
+
     public String getDesc() {
         return this.desc;
     }
+
     @Override
     public String toString() {
         return "Наменование заявки: " + this.getName() + " ID заявки: " + this.getId();
@@ -76,15 +88,13 @@ public class Item {
             return false;
         }
         Item item = (Item) o;
-        return created == item.created
-                && Objects.equals(id, item.id)
+        return  Objects.equals(id, item.id)
                 && Objects.equals(name, item.name)
-                && Objects.equals(desc, item.desc)
-                && Objects.equals(comments, item.comments);
+                && Objects.equals(desc, item.desc);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, desc, created, comments);
+        return Objects.hash(id, name, desc);
     }
 }
