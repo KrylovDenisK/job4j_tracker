@@ -14,7 +14,7 @@ import java.util.Objects;
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Integer id;
     @Column(name = "name")
     private String name;
     @Column(name = "description")
@@ -36,7 +36,7 @@ public class Item {
         this.desc = desc;
     }
 
-    public Item(String id, String name, String desc) {
+    public Item(Integer id, String name, String desc) {
         this.id = id;
         this.name = name;
         this.desc = desc;
@@ -46,14 +46,14 @@ public class Item {
      * Метод задает значение поля this.id по входящему параметру
      * @param id новый id
      */
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
     /**
      * Получить значение this.id
      */
     public String getId() {
-        return this.id;
+        return this.id.toString();
     }
     /**
      *Получить значение поля this.name
@@ -88,7 +88,7 @@ public class Item {
             return false;
         }
         Item item = (Item) o;
-        return  Objects.equals(id, item.id)
+        return Objects.equals(id, item.id)
                 && Objects.equals(name, item.name)
                 && Objects.equals(desc, item.desc);
     }

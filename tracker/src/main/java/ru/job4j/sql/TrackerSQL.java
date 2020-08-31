@@ -33,7 +33,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
             st.executeUpdate();
             try (ResultSet result = st.getGeneratedKeys()) {
                 if (result.next()) {
-                    item.setId(String.valueOf(result.getInt(1)));
+                    item.setId(result.getInt(1));
                 }
             }
         } catch (SQLException e) {
@@ -48,7 +48,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
         try (PreparedStatement st = connection.prepareStatement("update items set name = ?, description = ? where id = ?;")) {
             st.setString(1, item.getName());
             st.setString(2, item.getDesc());
-            st.setInt(3, Integer.valueOf(id));
+            st.setInt(3, Integer.parseInt(id));
             if (st.executeUpdate() > 0) {
                 result = true;
             }
@@ -62,7 +62,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
     public boolean delete(String id) {
         int result = 0;
         try (PreparedStatement st = connection.prepareStatement("delete from items where id = ?")) {
-            st.setInt(1, Integer.valueOf(id));
+            st.setInt(1, Integer.parseInt(id));
             result = st.executeUpdate();
         } catch (SQLException e) {
             LOGGER.error(e.getMessage(), e);
@@ -77,7 +77,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
            ResultSet result = st.executeQuery();
            while (result.next()) {
                items.add(new Item(
-                       result.getString("id"),
+                       result.getInt("id"),
                        result.getString("name"),
                        result.getString("description")
                        )
@@ -97,7 +97,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
             ResultSet result = st.executeQuery();
             while (result.next()) {
                 items.add(new Item(
-                        result.getString("id"),
+                        result.getInt("id"),
                         result.getString("name"),
                         result.getString("description"))
                 );
@@ -112,11 +112,11 @@ public class TrackerSQL implements ITracker, AutoCloseable {
     public Item findById(String id) {
         Item item = null;
         try (PreparedStatement st = connection.prepareStatement("select * from items where id = ?")) {
-            st.setInt(1, Integer.valueOf(id));
+            st.setInt(1, Integer.parseInt(id));
             ResultSet result = st.executeQuery();
             while (result.next()) {
                 item = new Item(
-                        result.getString("id"),
+                        result.getInt("id"),
                         result.getString("name"),
                         result.getString("description")
                 );

@@ -20,8 +20,8 @@ public class Tracker implements ITracker {
      * Метод генерирует уникальный ключ для заявки.
      * @return Уникальный ключ.
      */
-    private String generateId() {
-        return String.valueOf(random.nextInt());
+    private int generateId() {
+        return random.nextInt();
     }
     /**
      * Поиск заявки по ID
@@ -41,7 +41,7 @@ public class Tracker implements ITracker {
         boolean result = false;
         int index = IntStream.range(0, items.size()).filter(i -> items.get(i).getId().equals(id)).findFirst().orElse(-1);
         if (index >= 0) {
-            item.setId(id);
+            item.setId(Integer.parseInt(id));
             items.set(index, item);
             result = true;
         }

@@ -27,7 +27,7 @@ public class TrackerSQLTest {
     public void whenDeleteResultTrue() {
         try (TrackerSQL tracker = new TrackerSQL(ConnectionRollback.create(this.dataSource.getConnection()))) {
             Item addItem = tracker.add(new Item("1", "1"));
-            assertThat(tracker.delete(addItem.getId()), is(true));
+            assertThat(tracker.delete(String.valueOf(addItem.getId())), is(true));
         } catch (Exception e) {
             e.printStackTrace();
         }
