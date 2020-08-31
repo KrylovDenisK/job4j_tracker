@@ -2,6 +2,7 @@ package ru.job4j;
 
 import javax.persistence.*;
 
+import java.sql.Timestamp;
 import java.util.Objects;
 
 /**
@@ -19,17 +20,12 @@ public class Item {
     private String name;
     @Column(name = "description")
     private String desc;
+    @Column(name = "created")
+    private Timestamp created;
 
     public Item() {
 
     }
-    /**
-     * Конструктор нового объекта
-     * @param name имя заявки
-     * @param desc описание
-     //* @param created
-     */
-
 
     public Item(String name, String desc) {
         this.name = name;
