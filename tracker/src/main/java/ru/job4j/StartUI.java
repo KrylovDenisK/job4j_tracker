@@ -1,5 +1,6 @@
 package ru.job4j;
 
+import ru.job4j.hibernate.HbmTracker;
 import ru.job4j.inputs.ConsoleInput;
 import ru.job4j.inputs.Input;
 import ru.job4j.inputs.ValidateInput;
@@ -47,7 +48,7 @@ public class StartUI {
     }
 
         public static void main(String[] args) {
-            try (TrackerSQL trackerSQL = new TrackerSQL(new DataSource().getConnection())) {
+            try (HbmTracker trackerSQL = new HbmTracker()) {
                 new StartUI(new ValidateInput(new ConsoleInput(), System.out::println), trackerSQL, System.out::println).init();
             } catch (Exception e) {
                 e.printStackTrace();
