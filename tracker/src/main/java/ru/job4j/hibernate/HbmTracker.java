@@ -1,5 +1,7 @@
 package ru.job4j.hibernate;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
@@ -16,6 +18,7 @@ public class HbmTracker implements ITracker, AutoCloseable {
             .configure().build();
     private final SessionFactory sessionFactory = new MetadataSources(registry)
             .buildMetadata().buildSessionFactory();
+    private static final Logger LOG = LogManager.getLogger(HbmTracker.class.getName());
 
     @Override
     public void close() throws Exception {
@@ -29,35 +32,37 @@ public class HbmTracker implements ITracker, AutoCloseable {
             session.save(item);
             session.getTransaction().commit();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.trace(e.getMessage(), e);
         }
         return item;
     }
     @Override
     public boolean replace(String id, Item item) {
-        boolean result = true;
+        boolean result = false;
         item.setId(Integer.parseInt(id));
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.update(item);
             session.getTransaction().commit();
+            result = true;
         } catch (Exception e) {
-            result = false;
+            LOG.trace(e.getMessage(), e);
         }
         return result;
     }
 
     @Override
     public boolean delete(String id) {
-        boolean result = true;
+        boolean result = false;
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             Item item = new Item();
             item.setId(Integer.parseInt(id));
             session.delete(item);
             session.getTransaction().commit();
+            result = true;
         } catch (Exception e) {
-           result = false;
+           LOG.trace(e.getMessage(), e);
         }
         return result;
     }
@@ -70,7 +75,7 @@ public class HbmTracker implements ITracker, AutoCloseable {
             items = session.createQuery("from Item").list();
             session.getTransaction().commit();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.trace(e.getMessage(),  e);
         }
         return items;
     }
@@ -85,18 +90,20 @@ public class HbmTracker implements ITracker, AutoCloseable {
             items = query.list();
             session.getTransaction().commit();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.trace(e.getMessage(), e);
         }
         return items;
     }
 
     @Override
     public Item findById(String id) {
-        Item result;
+        Item result = null;
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             result = session.get(Item.class, Integer.parseInt(id));
             session.getTransaction().commit();
+        } catch (Exception e) {
+            LOG.trace(e.getMessage(), e);
         }
         return result;
     }

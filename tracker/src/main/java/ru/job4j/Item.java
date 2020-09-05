@@ -22,7 +22,7 @@ public class Item {
     @Column(name = "description")
     private String desc;
     @Column(name = "created")
-    private Timestamp created;
+    private LocalDateTime created = LocalDateTime.now().withNano(0);
 
     public Item() {
 

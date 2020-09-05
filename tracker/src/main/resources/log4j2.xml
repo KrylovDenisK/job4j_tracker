@@ -4,16 +4,21 @@
         <File name="LogTracker" fileName="logs\Tracker.log">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </File>
-        <Async name="Async">
-            <AppenderRef ref="LogTracker"/>
-        </Async>
+        <File name="LogTrackerHbm" fileName="logs\TrackerHbm.log">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" charset="UTF-8"/>
+        </File>
     </Appenders>
     <Loggers>
         <Logger name="ru.job4j.sql.TrackerSQL" level="trace" additivity="false">
-            <AppenderRef ref="Async"/>
+            <AppenderRef ref="LogTracker"/>
         </Logger>
-        <Root level="trace">
-            <AppenderRef ref="Async"/>
+
+        <Logger name="ru.job4j.hibernate.HbmTracker" level="trace" additivity="false">
+            <AppenderRef ref="LogTrackerHbm"/>
+        </Logger>
+        <Root level="error">
+            <AppenderRef ref="LogTracker"/>
+            <AppenderRef ref="LogTrackerHbm"/>
         </Root>
     </Loggers>
 </Configuration>
