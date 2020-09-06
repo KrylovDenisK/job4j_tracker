@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -27,11 +28,15 @@ public class HbmTracker implements ITracker, AutoCloseable {
 
     @Override
     public Item add(Item item) {
+        Transaction tx = null;
         try (Session session = sessionFactory.openSession()) {
-            session.beginTransaction();
+            tx = session.beginTransaction();
             session.save(item);
-            session.getTransaction().commit();
+            tx.commit();
         } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
             LOG.trace(e.getMessage(), e);
         }
         return item;
@@ -39,13 +44,17 @@ public class HbmTracker implements ITracker, AutoCloseable {
     @Override
     public boolean replace(String id, Item item) {
         boolean result = false;
+        Transaction tx = null;
         item.setId(Integer.parseInt(id));
         try (Session session = sessionFactory.openSession()) {
-            session.beginTransaction();
+            tx = session.beginTransaction();
             session.update(item);
-            session.getTransaction().commit();
+            tx.commit();
             result = true;
         } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
             LOG.trace(e.getMessage(), e);
         }
         return result;
@@ -54,14 +63,18 @@ public class HbmTracker implements ITracker, AutoCloseable {
     @Override
     public boolean delete(String id) {
         boolean result = false;
+        Transaction tx = null;
         try (Session session = sessionFactory.openSession()) {
-            session.beginTransaction();
+            tx = session.beginTransaction();
             Item item = new Item();
             item.setId(Integer.parseInt(id));
             session.delete(item);
-            session.getTransaction().commit();
+            tx.commit();
             result = true;
         } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
            LOG.trace(e.getMessage(), e);
         }
         return result;
@@ -70,11 +83,15 @@ public class HbmTracker implements ITracker, AutoCloseable {
     @Override
     public List<Item> findAll() {
         List items = null;
+        Transaction tx = null;
         try (Session session = sessionFactory.openSession()) {
-            session.beginTransaction();
+            tx = session.beginTransaction();
             items = session.createQuery("from Item").list();
-            session.getTransaction().commit();
+            tx.commit();
         } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
             LOG.trace(e.getMessage(),  e);
         }
         return items;
@@ -83,13 +100,17 @@ public class HbmTracker implements ITracker, AutoCloseable {
     @Override
     public List<Item> findByName(String key) {
         List items = null;
+        Transaction tx = null;
         try (Session session = sessionFactory.openSession()) {
-            session.beginTransaction();
+            tx = session.beginTransaction();
             Query query = session.createQuery("from Item where name = :name");
             query.setParameter("name", key);
             items = query.list();
-            session.getTransaction().commit();
+            tx.commit();
         } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
             LOG.trace(e.getMessage(), e);
         }
         return items;
@@ -98,11 +119,15 @@ public class HbmTracker implements ITracker, AutoCloseable {
     @Override
     public Item findById(String id) {
         Item result = null;
+        Transaction tx = null;
         try (Session session = sessionFactory.openSession()) {
-            session.beginTransaction();
+            tx = session.beginTransaction();
             result = session.get(Item.class, Integer.parseInt(id));
-            session.getTransaction().commit();
+            tx.commit();
         } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
             LOG.trace(e.getMessage(), e);
         }
         return result;
