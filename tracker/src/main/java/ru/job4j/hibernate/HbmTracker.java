@@ -5,25 +5,18 @@ import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.query.Query;
 import ru.job4j.ITracker;
 import ru.job4j.Item;
 
 import java.util.List;
 
-public class HbmTracker implements ITracker, AutoCloseable {
-    private final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
-            .configure().build();
-    private final SessionFactory sessionFactory = new MetadataSources(registry)
-            .buildMetadata().buildSessionFactory();
+public class HbmTracker implements ITracker {
+    private final SessionFactory sessionFactory;
     private static final Logger LOG = LogManager.getLogger(HbmTracker.class.getName());
 
-    @Override
-    public void close() throws Exception {
-        StandardServiceRegistryBuilder.destroy(registry);
+    public HbmTracker(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
     @Override
