@@ -17,7 +17,7 @@ public class HibernateFactory {
     }
 
     private static final class HibernateFactoryHolder {
-        private static final HibernateFactory  INSTANCE = new HibernateFactory();
+        private static final HibernateFactory INSTANCE = new HibernateFactory();
     }
 
     public SessionFactory getSessionFactory() {

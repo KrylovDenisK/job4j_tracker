@@ -35,7 +35,7 @@ public class HibernateRun {
         }
     }
 
-    public static Item create(Item item, SessionFactory sf) {
+    private static Item create(Item item, SessionFactory sf) {
         Session session = sf.openSession();
         session.beginTransaction();
         session.save(item);
@@ -44,7 +44,7 @@ public class HibernateRun {
         return item;
     }
 
-    public static void update(Item item, SessionFactory sf) {
+    private static void update(Item item, SessionFactory sf) {
         Session session = sf.openSession();
         session.beginTransaction();
         session.update(item);
@@ -62,7 +62,7 @@ public class HibernateRun {
         session.close();
     }
 
-    public static List<Item> findAll(SessionFactory sf) {
+    private static List<Item> findAll(SessionFactory sf) {
         Session session = sf.openSession();
         session.beginTransaction();
         List result = session.createQuery("from ru.job4j.Item").list();
@@ -71,7 +71,7 @@ public class HibernateRun {
         return result;
     }
 
-    public static Item findById(int id, SessionFactory sf) {
+    private static Item findById(int id, SessionFactory sf) {
         Session session = sf.openSession();
         session.beginTransaction();
         Item result = session.get(Item.class, id);
