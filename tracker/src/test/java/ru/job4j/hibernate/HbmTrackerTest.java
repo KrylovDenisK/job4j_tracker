@@ -1,5 +1,6 @@
 package ru.job4j.hibernate;
 
+import org.hibernate.cfg.Configuration;
 import org.junit.Before;
 import org.junit.Test;
 import ru.job4j.Item;
@@ -10,7 +11,8 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 public class HbmTrackerTest {
-    private HbmTracker hbmTracker = new HbmTracker(HibernateFactory.getInstance().getSessionFactory());
+    private HbmTracker hbmTracker = new HbmTracker(new Configuration()
+            .configure("hibernateTest.cfg.xml").buildSessionFactory());
 
     @Test
     public void whenAddThenResultTrue() {
@@ -43,7 +45,7 @@ public class HbmTrackerTest {
         hbmTracker.add(item1);
         hbmTracker.add(item2);
         hbmTracker.add(item3);
-        assertThat(hbmTracker.findByName("name1").size(), is(4));
+        assertThat(hbmTracker.findByName("name1").size(), is(3));
     }
 
     @Test

@@ -1,10 +1,7 @@
 <?xml version = "1.0" encoding = "utf-8"?>
-<!DOCTYPE hibernate-configuration PUBLIC
-        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
-        "http://hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <property name = "hibernate.connection.url">jdbc:hsqldb:mem:tracker;sql.enforce_size=false</property>
+        <property name = "hibernate.connection.url">jdbc:hsqldb:mem:test;sql.enforce_size=false</property>
         <property name = "hibernate.connection.driver_class">org.hsqldb.jdbcDriver</property>
         <property name = "hibernate.connection.username">test</property>
         <property name = "hibernate.connection.password"></property>

@@ -8,7 +8,7 @@ import org.hibernate.cfg.Configuration;
 
 import java.util.Objects;
 
-public class HibernateFactory {
+public class  HibernateFactory {
     private SessionFactory sessionFactory;
 
 

@@ -10,6 +10,7 @@ import ru.job4j.Item;
 import java.util.List;
 
 public class HibernateRun {
+    /*
     public static void main(String[] args) {
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .configure().build();
@@ -79,5 +80,7 @@ public class HibernateRun {
         session.close();
         return result;
     }
+
+     */
 
 }
