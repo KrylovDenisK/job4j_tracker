@@ -4,13 +4,12 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
-import org.junit.BeforeClass;
+import org.junit.Assert;
 import org.junit.Test;
 import ru.job4j.Item;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+
 
 public class HbmTrackerTest {
 
@@ -28,8 +27,8 @@ public class HbmTrackerTest {
         Item item = new Item("name", "desc");
         hbmTracker.add(item);
         Item result = hbmTracker.findAll().get(0);
-        assertThat(result.getName(), is("name"));
-        assertThat(result.getDesc(), is("desc"));
+        Assert.assertEquals(result.getName(), "name");
+        Assert.assertEquals(result.getDesc(), "desc");
     }
 
     @Test
@@ -40,9 +39,9 @@ public class HbmTrackerTest {
         hbmTracker.add(item1);
         hbmTracker.add(item2);
         hbmTracker.add(item3);
-        assertThat(hbmTracker.findAll().get(0), is(item1));
-        assertThat(hbmTracker.findAll().get(1), is(item2));
-        assertThat(hbmTracker.findAll().get(2), is(item3));
+        Assert.assertEquals(hbmTracker.findAll().get(0), item1);
+        Assert.assertEquals(hbmTracker.findAll().get(1), item2);
+        Assert.assertEquals(hbmTracker.findAll().get(2), item3);
 
     }
 
@@ -54,7 +53,7 @@ public class HbmTrackerTest {
         hbmTracker.add(item1);
         hbmTracker.add(item2);
         hbmTracker.add(item3);
-        assertThat(hbmTracker.findByName("name1").size(), is(3));
+        Assert.assertEquals(hbmTracker.findByName("name1").size(), 3);
     }
 
     @Test
@@ -62,6 +61,6 @@ public class HbmTrackerTest {
         Item item = new Item("name", "desc");
         hbmTracker.add(item);
         String id = item.getId();
-        assertThat(hbmTracker.findById(id), is(item));
+        Assert.assertEquals(hbmTracker.findById(id), item);
     }
 }

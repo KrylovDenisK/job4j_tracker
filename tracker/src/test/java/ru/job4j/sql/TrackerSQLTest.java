@@ -1,11 +1,10 @@
 package ru.job4j.sql;
 
 import org.apache.commons.dbcp.BasicDataSource;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import ru.job4j.Item;
-import ru.job4j.sql.proxy.ConnectionRollback;
-
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -43,7 +42,7 @@ public class TrackerSQLTest {
         try (Connection connection = pool.getConnection();
              TrackerSQL tracker = new TrackerSQL(connection)) {
             tracker.add(new Item("name", "desc"));
-            assertThat(tracker.findByName("name").size(), is(1));
+            Assert.assertEquals(tracker.findByName("name").size(), 1);
         }
     }
 
@@ -52,7 +51,7 @@ public class TrackerSQLTest {
         try (Connection connection = pool.getConnection();
              TrackerSQL tracker = new TrackerSQL(connection)) {
             Item addItem = tracker.add(new Item("1", "1"));
-            assertThat(tracker.delete(String.valueOf(addItem.getId())), is(true));
+            Assert.assertTrue(tracker.delete(String.valueOf(addItem.getId())));
         }
     }
     @Test
@@ -61,7 +60,7 @@ public class TrackerSQLTest {
              TrackerSQL tracker = new TrackerSQL(connection)) {
             Item expected = tracker.add(new Item("newItem", "newItem"));
             List<Item> result = tracker.findByName(expected.getName());
-            assertThat(result, is(List.of(expected)));
+            Assert.assertEquals(result, List.of(expected));
         }
     }
 }

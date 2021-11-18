@@ -1,5 +1,6 @@
 package ru.job4j;
 
+import org.junit.Assert;
 import org.junit.Test;
 import ru.job4j.inputs.Input;
 import ru.job4j.inputs.StubInput;
@@ -32,7 +33,7 @@ public class StartUITest {
             Tracker tracker = new Tracker();
            Input input = new StubInput(new String[]{"0", "test name", "desc", "6"});
            new StartUI(input, tracker, output).init();
-           assertThat(tracker.findAll().get(0).getName(), is("test name"));
+           Assert.assertEquals(tracker.findAll().get(0).getName(), "test name");
         }
 
             @Test
@@ -42,7 +43,7 @@ public class StartUITest {
                 tracker.add(item);
                 Input input = new StubInput(new String[]{"2", "test replace", "заменили заявку", item.getId(), "6"});
                 new StartUI(input, tracker, output).init();
-                assertThat(tracker.findAll().get(0).getName(), is("test replace"));
+                Assert.assertEquals(tracker.findAll().get(0).getName(), "test replace");
             }
 
             @Test
@@ -53,7 +54,7 @@ public class StartUITest {
                 Item threeItem = tracker.add(new Item("name3", "desc3"));
                 Input input = new StubInput(new String[]{"3", secondItem.getId(), "6"});
                 new StartUI(input, tracker, output).init();
-                assertThat(tracker.findAll(), is(new ArrayList<>(Arrays.asList(firstItem, threeItem))));
+                Assert.assertEquals(tracker.findAll(), new ArrayList<>(Arrays.asList(firstItem, threeItem)));
             }
 
            @Test
@@ -84,7 +85,7 @@ public class StartUITest {
                         .add("6. Exit Program")
                         .add("Завершение работы");
                 new StartUI(input, tracker, output).init();
-                assertThat(out.toString(), is(expect.toString() + System.lineSeparator()));
+               Assert.assertEquals(out.toString(), expect.toString() + System.lineSeparator());
             }
             @Test
             public void whenFindItemByIdThenShowThisItem() {
@@ -112,7 +113,7 @@ public class StartUITest {
                         .add("6. Exit Program")
                         .add("Завершение работы");
                 new StartUI(input, tracker, output).init();
-                assertThat(out.toString(), is(expect.toString() + System.lineSeparator()));
+                Assert.assertEquals(out.toString(), expect.toString() + System.lineSeparator());
             }
 
     @Test
@@ -120,11 +121,9 @@ public class StartUITest {
         ValidateInput input = new ValidateInput(
                 new StubInput(new String[] {"invalid", "1"}), output);
         input.ask("Enter", new int[] {1});
-        assertThat(
+        Assert.assertEquals(
                 this.out.toString(),
-                is(
                         String.format("Необходимо ввести корректное значение%n")
-                )
         );
     }
 

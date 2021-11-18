@@ -1,13 +1,12 @@
 package ru.job4j;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
 
 public class TrackerTest {
     @Test
@@ -15,7 +14,7 @@ public class TrackerTest {
         Tracker tracker = new Tracker();
         Item item = new Item("test1", "testDescription");
         tracker.add(item);
-        assertThat(tracker.findAll().get(0), is(item));
+        Assert.assertEquals(tracker.findAll().get(0), item);
     }
     @Test
     public void whenReplaceNameThenReturnNewName() {
@@ -25,7 +24,7 @@ public class TrackerTest {
         Item next = new Item("test2", "testDescription2");
         next.setId(Integer.parseInt(previous.getId()));
         tracker.replace(previous.getId(), next);
-        assertThat(tracker.findById(previous.getId()).getName(), is("test2"));
+        Assert.assertEquals(tracker.findById(previous.getId()).getName(), "test2");
     }
     @Test
     public void whenFindItemByIdThenReturnThisItem() {
@@ -34,7 +33,7 @@ public class TrackerTest {
         tracker.add(previous);
         Item next = new Item("test2", "testDescription2");
         tracker.add(next);
-        assertThat(tracker.findById(next.getId()), is(next));
+        Assert.assertEquals(tracker.findById(next.getId()), next);
     }
     @Test
     public void whenDeleteItemByIdThenFinilArrayWithoutIt() {
@@ -47,7 +46,7 @@ public class TrackerTest {
         tracker.add(three);
         List<Item> expect = new ArrayList<>(Arrays.asList(one, three));
         tracker.delete(two.getId());
-        assertThat(tracker.findAll(), is(expect));
+        Assert.assertEquals(tracker.findAll(), expect);
     }
     @Test
     public void whenFindItemByNameThenReturnArrayThisItem() {
@@ -62,6 +61,6 @@ public class TrackerTest {
         tracker.add(four);
         List<Item> result = tracker.findByName("test2");
         List<Item> expect = new ArrayList<>(Arrays.asList(two, four));
-        assertThat(result, is(expect));
+        Assert.assertEquals(result, expect);
     }
 }
