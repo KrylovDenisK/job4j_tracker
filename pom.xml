@@ -8,18 +8,6 @@
      <url>http://job4j.ru/</url>
     <profiles>
         <profile>
-            <id>test</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <db.url>jdbc:postgresql://localhost:5432/tracker</db.url>
-                <db.username>postgres</db.username>
-                <db.password>132197</db.password>
-                <db.driver>org.postgresql.Driver</db.driver>
-            </properties>
-        </profile>
-        <profile>
             <id>production</id>
             <properties>
                 <db.url>jdbc:postgresql://localhost:5432/tracker</db.url>
@@ -82,10 +70,9 @@
         <dependency>
             <groupId>org.hsqldb</groupId>
             <artifactId>hsqldb</artifactId>
-            <version>2.5.1</version>
+            <version>2.3.2</version>
             <scope>test</scope>
         </dependency>
-
 
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>

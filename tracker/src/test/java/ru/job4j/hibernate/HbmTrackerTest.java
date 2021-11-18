@@ -1,18 +1,27 @@
 package ru.job4j.hibernate;
 
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import ru.job4j.Item;
-
-import javax.persistence.Table;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 public class HbmTrackerTest {
-    private HbmTracker hbmTracker = new HbmTracker(new Configuration()
-            .configure("hibernateTest.cfg.xml").buildSessionFactory());
+
+   // private static HbmTracker hbmTracker = new HbmTracker(HibernateFactory.getInstance().getSessionFactory());
+    private final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
+            .configure().build();
+
+    private final SessionFactory sf = new MetadataSources(registry)
+            .buildMetadata().buildSessionFactory();
+
+    private final HbmTracker hbmTracker = new HbmTracker(sf);
 
     @Test
     public void whenAddThenResultTrue() {
